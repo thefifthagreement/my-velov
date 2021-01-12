@@ -32,7 +32,7 @@
 
   </head>
 
-  <body>
+  <body onload="getLocation()">
 
     <div class="mb-1">
       <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -83,7 +83,7 @@
       {% endif %}
 
       {% block content %}
-        <p>Main</p>
+        <p>Your actual location: (<b id="latitude" name="latitude"></b>, <b id="longitude" name="longitude"></b>)</p>
       {% endblock content %}
 
     </div> <!-- /container -->
@@ -106,7 +106,6 @@
       <!-- place project specific Javascript in this file -->
 
       <script src="{% static 'js/project.js' %}"></script>
-
 
     {% endblock javascript %}
   </body>
