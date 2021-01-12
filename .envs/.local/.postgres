@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=my_velov_assistant
+POSTGRES_USER=WnFxXHlLJhxvExJMmcYuxNwJzDDvEhps
+POSTGRES_PASSWORD=qNllpec4kH9AjSgrRXvVdkZjgHo4OtNDLUJW6qhdpIrHG1gAHyDkex5Uep5RItFj
