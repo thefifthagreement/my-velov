@@ -11,8 +11,8 @@ Welcome to My velov assistant's documentation!
    :caption: Contents:
 
    howto
-   pycharm/configuration
    users
+   assistant
 
 
 
