@@ -4,7 +4,13 @@ from my_velov_assistant.users.tests.factories import UserFactory
 
 from .models import ApiCall
 from .point import Point, get_distance
-from .stations import get_stations
+from .stations import (
+    Station,
+    Stations,
+    get_nearest_free_bike,
+    get_nearest_free_place,
+    get_stations,
+)
 
 
 # ApiCall
@@ -33,14 +39,41 @@ class VelovTestCase(TestCase):
 
 # Distances
 class DistanceTestCase(TestCase):
+    def setUp(self) -> None:
+        self.lyon = Point(45.7597, 4.8422)
+        self.paris = Point(48.8567, 2.3505)
+        self.station1 = Station(
+            number=1,
+            name="museum",
+            position=Point(45.774526, 4.848443),
+            free_bike=10,
+            free_place=0,
+        )
+        self.station2 = Station(
+            number=2,
+            name="cité",
+            position=Point(45.784812, 4.856432),
+            free_bike=0,
+            free_place=20,
+        )
+        self.station3 = Station(
+            number=3,
+            name="porte",
+            position=Point(45.777521, 4.844922),
+            free_bike=1,
+            free_place=20,
+        )
+        self.stations: Stations = [self.station1, self.station2, self.station3]
+
     def test_distance_lyon_paris(self):
-        lyon = Point(45.7597, 4.8422)
-        paris = Point(48.8567, 2.3505)
-        self.assertAlmostEqual(get_distance(lyon, paris), 392.22, delta=0.1)
+        self.assertAlmostEqual(get_distance(self.lyon, self.paris), 392.22, delta=0.1)
 
+    def test_nearest_free_bike(self):
+        nearest = get_nearest_free_bike(Point(45.7730961, 4.8418148), self.stations)
+        self.assertEquals(nearest.number, 1)
 
-# select nearest station with a free bike
+    def test_nearest_free_place(self):
+        nearest = get_nearest_free_place(Point(45.7730961, 4.8418148), self.stations)
+        self.assertEquals(nearest.number, 3)
 
-# destination format
-
-# select nearest free place from the destination
+    # destination format

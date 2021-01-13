@@ -12,7 +12,7 @@ class Point:
 
 
 def get_distance(point1: Point, point2: Point) -> float:
-    """Returns the distance between two points (lat, lon)
+    """Returns the distance between two points coordinates (lat, lon)
     using the Haversine formula"""
 
     point1 = (point1.latitude, point1.longitude)
