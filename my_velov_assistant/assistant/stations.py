@@ -1,3 +1,4 @@
+"""Dataclass and functions for the manipulation of the velov stations"""
 import json
 import os
 import urllib.request
@@ -14,19 +15,28 @@ DECAUX_API_URL = os.environ["DECAUX_API_URL"]
 class Station:
     """Definition of a velov station"""
 
+    #: the station ID
     number: int
+    #: the station name
     name: str
+    #: the coordinates (lat, long) of the station
     position: Point
+    #: the number of free bikes
     free_bike: int
+    #: the number of free places
     free_place: int
 
 
-# type alias for type hinting
+#: type alias for type hinting
 Stations = List[Station]
 
 
 def get_stations(city: str = "lyon") -> Stations:
-    """Returns the list of the velov stations filtered by the city."""
+    """Returns the list of the velov stations filtered by the city.
+
+    :param city: The city to filter the stations returned by the API
+    :return: The list of station of the city
+    """
 
     url = f"{DECAUX_API_URL}?apiKey={DECAUX_API_KEY}"
     response = urllib.request.urlopen(url)
@@ -47,7 +57,12 @@ def get_stations(city: str = "lyon") -> Stations:
 
 
 def get_station(number: int, stations: Stations) -> Station:
-    """Returns the station with the number if it exists"""
+    """Returns the station which ID is the number.
+
+    :param number: The number of the station to find
+    :param stations: The list of stations
+    :return: The station with the same number or None
+    """
 
     station: Station = None
     for s in stations:
@@ -58,14 +73,24 @@ def get_station(number: int, stations: Stations) -> Station:
 
 
 def get_nearest_station(distances: Dict[int, float], stations: Stations):
-    """Returns the nearest station using the distances"""
+    """Returns the nearest station using the distances
+
+    :param distances: A dict of number -> distance
+    :param stations: The list of velov stations
+    :return: The nearest station
+    """
 
     nearest = sorted(distances.items(), key=lambda x: x[1])[0]
     return get_station(nearest[0], stations)
 
 
 def get_nearest_free_bike(position: Point, stations: Stations) -> Station:
-    """Returns the nearest station with a free bike"""
+    """Returns the nearest station from the position with a free bike
+
+    :param position: The position of the user
+    :param stations: The list of veloc stations
+    :return: The nearest station with a free bike
+    """
 
     distances = {
         s.number: get_distance(position, s.position)
@@ -76,7 +101,12 @@ def get_nearest_free_bike(position: Point, stations: Stations) -> Station:
 
 
 def get_nearest_free_place(position: Point, stations: Stations) -> Station:
-    """Returns the nearest station with a free place"""
+    """Returns the nearest station from the position with a free place
+
+    :param position: The position of the user
+    :param stations: The list of veloc stations
+    :return: The nearest station with a free place
+    """
 
     distances = {
         s.number: get_distance(position, s.position)

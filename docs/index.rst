@@ -13,6 +13,8 @@ Welcome to My velov assistant's documentation!
    howto
    users
    assistant
+   stations
+   point
 
 
 
