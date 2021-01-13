@@ -34,7 +34,7 @@ class VelovTestCase(TestCase):
     def test_get_station_is_not_empty(self):
         # check that the decaux api setup is correct
         velov_stations = get_stations()
-        self.assertNotEquals(len(velov_stations), 0)
+        self.assertNotEqual(len(velov_stations), 0)
 
 
 # Distances
@@ -70,10 +70,10 @@ class DistanceTestCase(TestCase):
 
     def test_nearest_free_bike(self):
         nearest = get_nearest_free_bike(Point(45.7730961, 4.8418148), self.stations)
-        self.assertEquals(nearest.number, 1)
+        self.assertEqual(nearest.number, 1)
 
     def test_nearest_free_place(self):
         nearest = get_nearest_free_place(Point(45.7730961, 4.8418148), self.stations)
-        self.assertEquals(nearest.number, 3)
+        self.assertEqual(nearest.number, 3)
 
     # destination format
