@@ -1,12 +1,30 @@
 import json
 import os
 import urllib.request
+from dataclasses import dataclass
+
+from my_velov_assistant.assistant.point import Point
 
 DECAUX_API_KEY = os.environ["DECAUX_API_KEY"]
 DECAUX_API_URL = "https://api.jcdecaux.com/vls/v3/stations"
 
 
-def get_stations(city: str = "lyon") -> list:
+@dataclass
+class Station:
+    """Definition of a velov station"""
+
+    number: int
+    name: str
+    position: Point
+    free_bike: int
+    free_place: int
+
+
+# type alias for type hinting
+Stations = list[Station]
+
+
+def get_stations(city: str = "lyon") -> Stations:
     """Returns the list of the velov stations filtered by the city."""
 
     url = f"{DECAUX_API_URL}?apiKey={DECAUX_API_KEY}"
@@ -14,4 +32,14 @@ def get_stations(city: str = "lyon") -> list:
     stations = json.loads(response.read().decode())
 
     # filtering using the city parameter
-    return [s for s in stations if s["contractName"] == city]
+    return [
+        Station(
+            number=s["number"],
+            name=s["name"],
+            position=Point(s["position"]["latitude"], s["position"]["longitude"]),
+            free_bike=s["mainStands"]["availabilities"]["bikes"],
+            free_place=s["mainStands"]["availabilities"]["stands"],
+        )
+        for s in stations
+        if s["contractName"] == city
+    ]
