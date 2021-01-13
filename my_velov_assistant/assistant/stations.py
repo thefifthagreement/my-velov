@@ -2,11 +2,12 @@ import json
 import os
 import urllib.request
 from dataclasses import dataclass
+from typing import List
 
 from my_velov_assistant.assistant.point import Point
 
 DECAUX_API_KEY = os.environ["DECAUX_API_KEY"]
-DECAUX_API_URL = "https://api.jcdecaux.com/vls/v3/stations"
+DECAUX_API_URL = os.environ["DECAUX_API_URL"]
 
 
 @dataclass
@@ -21,7 +22,7 @@ class Station:
 
 
 # type alias for type hinting
-Stations = list[Station]
+Stations = List[Station]
 
 
 def get_stations(city: str = "lyon") -> Stations:
