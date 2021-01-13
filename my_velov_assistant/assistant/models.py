@@ -1,24 +1,6 @@
-import json
-import os
-import urllib.request
-
 from django.db import models
 
 from my_velov_assistant.users.models import User
-
-DECAUX_API_KEY = os.environ["DECAUX_API_KEY"]
-DECAUX_API_URL = "https://api.jcdecaux.com/vls/v3/stations"
-
-
-def get_stations(city: str = "lyon") -> list:
-    """Returns the list of the velov stations filtered by the city."""
-
-    url = f"{DECAUX_API_URL}?apiKey={DECAUX_API_KEY}"
-    response = urllib.request.urlopen(url)
-    stations = json.loads(response.read().decode())
-
-    # filtering using the city parameter
-    return [s for s in stations if s["contractName"] == city]
 
 
 class ApiCall(models.Model):

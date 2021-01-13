@@ -2,7 +2,9 @@ from django.test import TestCase
 
 from my_velov_assistant.users.tests.factories import UserFactory
 
-from .models import ApiCall, get_stations
+from .models import ApiCall
+from .point import Point, get_distance
+from .stations import get_stations
 
 
 # ApiCall
@@ -24,11 +26,18 @@ class ApiCallTestCase(TestCase):
 # Velov test cases
 class VelovTestCase(TestCase):
     def test_get_station_is_not_empty(self):
+        # check that the decaux api setup is correct
         velov_stations = get_stations()
         self.assertNotEquals(len(velov_stations), 0)
 
 
-# distance from position
+# Distances
+class DistanceTestCase(TestCase):
+    def test_distance_lyon_paris(self):
+        lyon = Point(45.7597, 4.8422)
+        paris = Point(48.8567, 2.3505)
+        self.assertAlmostEqual(get_distance(lyon, paris), 392.22, delta=0.1)
+
 
 # select nearest station with a free bike
 
