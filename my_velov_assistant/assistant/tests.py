@@ -32,8 +32,10 @@ class ApiCallTestCase(TestCase):
 # Velov test cases
 class VelovTestCase(TestCase):
     def test_get_station_is_not_empty(self):
+        # create a fake user
+        user = UserFactory()
         # check that the decaux api setup is correct
-        velov_stations = get_stations()
+        velov_stations = get_stations(user)
         self.assertNotEqual(len(velov_stations), 0)
 
 
@@ -45,21 +47,21 @@ class DistanceTestCase(TestCase):
         self.station1 = Station(
             number=1,
             name="museum",
-            position=Point(45.774526, 4.848443),
+            location=Point(45.774526, 4.848443),
             free_bike=10,
             free_place=0,
         )
         self.station2 = Station(
             number=2,
             name="cité",
-            position=Point(45.784812, 4.856432),
+            location=Point(45.784812, 4.856432),
             free_bike=0,
             free_place=20,
         )
         self.station3 = Station(
             number=3,
             name="porte",
-            position=Point(45.777521, 4.844922),
+            location=Point(45.777521, 4.844922),
             free_bike=1,
             free_place=20,
         )

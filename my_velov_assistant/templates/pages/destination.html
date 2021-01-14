@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>The nearest free place to your destination is the <b>{{ nearest_station.name }}</b> station.</p>
+    <p>The distance is {{ distance }} km.</p>
+    {{ map|safe }}
+{% endblock content %}

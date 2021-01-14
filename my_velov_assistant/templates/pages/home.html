@@ -11,13 +11,24 @@
         <input class="form-control" id="longitude" name="longitude">
         <button type="submit" class="btn btn-success">Find the nearest free bike</button>
     </div>
-
 </form>
 
-{% if nearest_free_bike %}
-    <p>The nearest free bike is the <b>{{ nearest_free_bike }}</b> station.</p>
-    <p>The distance from your location is {{ distance }} km.</p>
+{% if search %}
+    {% if nearest_station %}
+        <p>The nearest free bike is the <b>{{ nearest_station.name }}</b> station.</p>
+        <p>The distance from your location is {{ distance }} km.</p>
+        {{ map|safe }}
+        <form action="{% url 'destination' %}" class="form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="destination">Type in your destination adress</label>
+                <input class="form-control" id="destination" name="destination">
+                <button type="submit" class="btn btn-success">Find the nearest free place</button>
+            </div>
+        </form>
+    {% else %}
+        <p>No free bike found !</p>
+    {% endif %}
 {% endif %}
-
 
 {% endblock %}
