@@ -6,6 +6,9 @@ whitenoise==5.2.0  # https://github.com/evansd/whitenoise
 redis==3.5.3  # https://github.com/andymccurdy/redis-py
 hiredis==1.1.0  # https://github.com/redis/hiredis-py
 uvicorn[standard]==0.13.3  # https://github.com/encode/uvicorn
+folium==0.12.0
+haversine==2.3.0
+dj-database-url==0.5.0
 
 # Django
 # ------------------------------------------------------------------------------
