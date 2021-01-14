@@ -64,12 +64,7 @@ def get_station(number: int, stations: Stations) -> Station:
     :return: The station with the same number or None
     """
 
-    station: Station = None
-    for s in stations:
-        if s.number == number:
-            station = s
-            break
-    return station
+    return next(filter(lambda s: s.number == number, stations), None)
 
 
 def get_nearest_station(distances: Dict[int, float], stations: Stations):
@@ -80,7 +75,9 @@ def get_nearest_station(distances: Dict[int, float], stations: Stations):
     :return: The nearest station and the distance in km
     """
 
-    nearest = sorted(distances.items(), key=lambda x: x[1])[0]
+    # the minimum of the distances
+    nearest = min(distances.items(), key=lambda d: d[1])
+
     return (get_station(nearest[0], stations), nearest[1])
 
 
