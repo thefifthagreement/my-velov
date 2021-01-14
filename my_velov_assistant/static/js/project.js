@@ -7,8 +7,8 @@ function getLocation() {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        document.getElementById("latitude").innerHTML = `latitude:${pos.lat}`
-        document.getElementById("longitude").innerHTML = `longitude:${pos.lng}`
+        document.getElementById("latitude").value = `${pos.lat}`
+        document.getElementById("longitude").value = `${pos.lng}`
       },
       () => {
         console.log("Error: Your browser doesn't support geolocation.")

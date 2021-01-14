@@ -70,10 +70,10 @@ class DistanceTestCase(TestCase):
 
     def test_nearest_free_bike(self):
         nearest = get_nearest_free_bike(Point(45.7730961, 4.8418148), self.stations)
-        self.assertEqual(nearest.number, 1)
+        self.assertEqual(nearest[0].number, 1)
 
     def test_nearest_free_place(self):
         nearest = get_nearest_free_place(Point(45.7730961, 4.8418148), self.stations)
-        self.assertEqual(nearest.number, 3)
+        self.assertEqual(nearest[0].number, 3)
 
     # destination format

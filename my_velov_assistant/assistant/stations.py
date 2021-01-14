@@ -3,7 +3,7 @@ import json
 import os
 import urllib.request
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from my_velov_assistant.assistant.point import Point, get_distance
 
@@ -73,23 +73,23 @@ def get_station(number: int, stations: Stations) -> Station:
 
 
 def get_nearest_station(distances: Dict[int, float], stations: Stations):
-    """Returns the nearest station using the distances
+    """Search of the nearest station using the distances
 
     :param distances: A dict of number -> distance
     :param stations: The list of velov stations
-    :return: The nearest station
+    :return: The nearest station and the distance in km
     """
 
     nearest = sorted(distances.items(), key=lambda x: x[1])[0]
-    return get_station(nearest[0], stations)
+    return (get_station(nearest[0], stations), nearest[1])
 
 
-def get_nearest_free_bike(position: Point, stations: Stations) -> Station:
-    """Returns the nearest station from the position with a free bike
+def get_nearest_free_bike(position: Point, stations: Stations) -> Tuple[Station, float]:
+    """Search of the nearest station from the position with a free bike
 
-    :param position: The position of the user
-    :param stations: The list of veloc stations
-    :return: The nearest station with a free bike
+    :param position: The user's location
+    :param stations: The list of velov stations
+    :return: The nearest station with a free bike and the distance in km
     """
 
     distances = {
@@ -100,12 +100,14 @@ def get_nearest_free_bike(position: Point, stations: Stations) -> Station:
     return get_nearest_station(distances, stations)
 
 
-def get_nearest_free_place(position: Point, stations: Stations) -> Station:
-    """Returns the nearest station from the position with a free place
+def get_nearest_free_place(
+    position: Point, stations: Stations
+) -> Tuple[Station, float]:
+    """Search of the nearest station from the position with a free place
 
-    :param position: The position of the user
-    :param stations: The list of veloc stations
-    :return: The nearest station with a free place
+    :param position: The user's destination
+    :param stations: The list of velov stations
+    :return: The nearest station with a free place and the distance in km
     """
 
     distances = {
