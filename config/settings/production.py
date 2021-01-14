@@ -151,3 +151,8 @@ LOGGING = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "mickael.vitry@gmail.com"
+EMAIL_HOST_PASSWORD = env("GMAIL_KEY")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
