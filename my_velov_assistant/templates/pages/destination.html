@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>The nearest free place to your destination is the <b>{{ nearest_station.name }}</b> station.</p>
-    <p>The distance is {{ distance }} km.</p>
-    {{ map|safe }}
+
+    {% if distance < 10.0 %}
+        <p>The nearest free place to your destination is the <b>{{ nearest_station.name }}</b> station.</p>
+        <p>The distance is {{ distance }} km.</p>
+        {{ map|safe }}
+    {% else %}
+        <p>Sorry, there's no free place found at less than 10 km of your destination ! Consider using another option.</p>
+    {% endif %}
+
 {% endblock content %}

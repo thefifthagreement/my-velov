@@ -14,7 +14,7 @@
 </form>
 
 {% if search %}
-    {% if nearest_station %}
+    {% if nearest_station and distance < 10.0 %}
         <p>The nearest free bike is the <b>{{ nearest_station.name }}</b> station.</p>
         <p>The distance from your location is {{ distance }} km.</p>
         {{ map|safe }}
@@ -27,7 +27,7 @@
             </div>
         </form>
     {% else %}
-        <p>No free bike found !</p>
+        <p>Sorry, there's no free bike found at less than 10 km ! Consider using another option.</p>
     {% endif %}
 {% endif %}
 
