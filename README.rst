@@ -1,7 +1,8 @@
 My velov assistant
 ==================
 
-Where is the nearest bike from my location and is there a free place near my destination ? This app aims to answer these questions.
+Where is the nearest bike available from my location and is there a free place near my destination ?
+This app aims to answer these questions.
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
@@ -12,6 +13,9 @@ Where is the nearest bike from my location and is there a free place near my des
 
 
 :License: MIT
+
+Description
+===========
 
 
 
