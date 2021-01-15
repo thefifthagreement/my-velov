@@ -1,4 +1,4 @@
-My velov assistant
+My velo'v assistant
 ==================
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
