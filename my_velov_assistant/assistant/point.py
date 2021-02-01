@@ -2,7 +2,7 @@
 import json
 import os
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import astuple, dataclass
 from urllib.parse import urlencode
 
 from haversine import haversine
@@ -24,7 +24,7 @@ class Point:
     longitude: float
 
 
-def get_distance(point1: Point, point2: Point) -> float:
+def get_distance(pointA: Point, pointB: Point) -> float:
     """Compute the distance between two points coordinates (lat, lon)
     using the Haversine formula
 
@@ -33,9 +33,9 @@ def get_distance(point1: Point, point2: Point) -> float:
     :return: The distance between the points using the Haversine formula
     """
 
-    point1 = (point1.latitude, point1.longitude)
-    point2 = (point2.latitude, point2.longitude)
-    return haversine(point1, point2)
+    pointA = astuple(pointA)
+    pointB = astuple(pointB)
+    return haversine(pointA, pointB)
 
 
 def get_coordinates(address: str, user: User, city: str = "LYON, FR") -> Point:
@@ -60,3 +60,17 @@ def get_coordinates(address: str, user: User, city: str = "LYON, FR") -> Point:
     latlng = geocode["results"][0]["geometry"]["location"]
 
     return Point(latlng.get("lat"), latlng.get("lng"))
+
+
+def get_centered_location(pointA: Point, pointB: Point) -> Point:
+    """Compute and returns the center between PointA and Point
+
+    :param pointA: The current location
+    :param pointB: The destination
+    :return: The centered location between point A and point B
+    """
+
+    centered_latitude = (pointA.latitude + pointB.latitude) / 2
+    centered_longitude = (pointA.longitude + pointB.longitude) / 2
+
+    return Point(centered_latitude, centered_longitude)

@@ -1,8 +1,14 @@
+from dataclasses import astuple
+
 import folium
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from my_velov_assistant.assistant.point import Point, get_coordinates
+from my_velov_assistant.assistant.point import (
+    Point,
+    get_centered_location,
+    get_coordinates,
+)
 from my_velov_assistant.assistant.stations import (
     get_nearest_free_bike,
     get_nearest_free_place,
@@ -21,17 +27,20 @@ def index(request):
         longitude = request.POST.get("longitude")
         location = Point(latitude=float(latitude), longitude=float(longitude))
 
+        # read the stations
+        stations = get_stations(request.user)
+
+        nearest, distance = get_nearest_free_bike(location, stations)
+
+        # get the center between current locatio and destination
+        latitude, longitude = get_centered_location(location, nearest.location)
+
         m = folium.Map(
             width=300, height=300, location=(latitude, longitude), zoom_start=20
         )
         folium.Marker(
             [latitude, longitude], tooltip="Your location", icon=folium.Icon()
         ).add_to(m)
-
-        # read the stations
-        stations = get_stations(request.user)
-
-        nearest, distance = get_nearest_free_bike(location, stations)
 
         folium.Marker(
             [nearest.location.latitude, nearest.location.longitude],
@@ -53,22 +62,26 @@ def destination(request):
     if request.method == "POST":
         destination_address = request.POST.get("destination")
         destination_location = get_coordinates(destination_address, request.user)
-        latitude, longitude = (
-            destination_location.latitude,
-            destination_location.longitude,
+        latitude, longitude = astuple(destination_location)
+
+        # read the stations
+        stations = get_stations(request.user)
+
+        nearest, distance = get_nearest_free_place(destination_location, stations)
+
+        # get the center between current locatio and destination
+        latitude, longitude = get_centered_location(
+            destination_location, nearest.location
         )
 
         m = folium.Map(
             width=300, height=300, location=(latitude, longitude), zoom_start=20
         )
         folium.Marker(
-            [latitude, longitude], tooltip="Your destination", icon=folium.Icon()
+            [destination_location.latitude, destination_location.longitude],
+            tooltip="Your destination",
+            icon=folium.Icon(),
         ).add_to(m)
-
-        # read the stations
-        stations = get_stations(request.user)
-
-        nearest, distance = get_nearest_free_place(destination_location, stations)
 
         folium.Marker(
             [nearest.location.latitude, nearest.location.longitude],

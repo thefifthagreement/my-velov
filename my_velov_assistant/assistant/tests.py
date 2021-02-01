@@ -3,7 +3,7 @@ from django.test import TestCase
 from my_velov_assistant.users.tests.factories import UserFactory
 
 from .models import ApiCall
-from .point import Point, get_distance
+from .point import Point, get_centered_location, get_distance
 from .stations import (
     Station,
     Stations,
@@ -78,4 +78,7 @@ class DistanceTestCase(TestCase):
         nearest = get_nearest_free_place(Point(45.7730961, 4.8418148), self.stations)
         self.assertEqual(nearest[0].number, 3)
 
-    # destination format
+    def test_centered_location(self):
+        centered = get_centered_location(self.station1.location, self.station2.location)
+        self.assertEqual(centered.latitude, 45.779669)
+        self.assertEqual(centered.longitude, 4.8524375)
