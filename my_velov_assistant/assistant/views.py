@@ -25,21 +25,28 @@ def index(request):
         # the location of the user
         latitude = request.POST.get("latitude")
         longitude = request.POST.get("longitude")
-        location = Point(latitude=float(latitude), longitude=float(longitude))
+        current_location = Point(latitude=float(latitude), longitude=float(longitude))
 
         # read the stations
         stations = get_stations(request.user)
 
-        nearest, distance = get_nearest_free_bike(location, stations)
+        nearest, distance = get_nearest_free_bike(current_location, stations)
 
         # get the center between current locatio and destination
-        latitude, longitude = astuple(get_centered_location(location, nearest.location))
+        centered_latitude, centered_longitude = astuple(
+            get_centered_location(current_location, nearest.location)
+        )
 
         m = folium.Map(
-            width=300, height=300, location=(latitude, longitude), zoom_start=20
+            width=300,
+            height=300,
+            location=(centered_latitude, centered_longitude),
+            zoom_start=20,
         )
         folium.Marker(
-            [latitude, longitude], tooltip="Your location", icon=folium.Icon()
+            [current_location.latitude, current_location.longitude],
+            tooltip="Your location",
+            icon=folium.Icon(),
         ).add_to(m)
 
         folium.Marker(
