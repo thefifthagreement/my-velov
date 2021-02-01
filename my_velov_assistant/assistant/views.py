@@ -33,7 +33,7 @@ def index(request):
         nearest, distance = get_nearest_free_bike(location, stations)
 
         # get the center between current locatio and destination
-        latitude, longitude = get_centered_location(location, nearest.location)
+        latitude, longitude = astuple(get_centered_location(location, nearest.location))
 
         m = folium.Map(
             width=300, height=300, location=(latitude, longitude), zoom_start=20
@@ -70,8 +70,8 @@ def destination(request):
         nearest, distance = get_nearest_free_place(destination_location, stations)
 
         # get the center between current locatio and destination
-        latitude, longitude = get_centered_location(
-            destination_location, nearest.location
+        latitude, longitude = astuple(
+            get_centered_location(destination_location, nearest.location)
         )
 
         m = folium.Map(
