@@ -10,9 +10,7 @@ My velo'v assistant
 
 Where is the nearest bike available from my location and is there a free place near my destination ?
 
-This app aims to answer these questions. The first version is available on Heroku_
-
-.. _Heroku: https://my-velov-assistant.herokuapp.com/
+This app aims to answer these questions. The first version was available on Heroku.
 
 :License: MIT
 
